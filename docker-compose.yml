@@ -39,7 +39,7 @@ services:
       redis:
         condition: service_healthy
     ports:
-      - "8080:8000"
+      - "8081:8000"
 
   static_collector:
     build: .
