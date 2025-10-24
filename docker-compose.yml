@@ -51,7 +51,7 @@ services:
   web:
     image: nginx:stable-alpine3.21
     ports:
-      - "80:80"
+      - "81:80"
     depends_on:
       backend:
         condition: service_started
