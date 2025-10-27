@@ -16,10 +16,10 @@ def send_admin_notification(doc_pk):
 
     if email_list:
         document = Document.objects.get(pk=doc_pk)
-        file_content = document.file.read().decode('utf-8')  # Байтовое содержимое файла
-        file_name = document.file.name.split('/')[-1]
-        subject = f"Загружен новый документ!"
-        message = f"Загружен новый документ! Необходимо произвести подтверждение или отклонение."
+        file_content = document.file.read().decode("utf-8")  # Байтовое содержимое файла
+        file_name = document.file.name.split("/")[-1]
+        subject = "Загружен новый документ!"
+        message = "Загружен новый документ! Необходимо произвести подтверждение или отклонение."
         email = EmailMessage(
             subject=subject,
             body=message,

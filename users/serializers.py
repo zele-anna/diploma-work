@@ -8,8 +8,4 @@ class UserRegisterSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = (
-            "pk",
-            "email",
-            "password"
-        )
+        fields = ("pk", "email", "password")
