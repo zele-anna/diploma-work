@@ -18,7 +18,7 @@ class Document(models.Model):
 
     title = models.CharField(max_length=255, verbose_name="Наименование документа")
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name="Владелец", blank=True, null=True)
-    file = models.FileField(upload_to="docs_manager/uploads")
+    file = models.FileField(upload_to="docs_manager/uploads", verbose_name="Файл")
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, verbose_name="Статус документа", default=UPLOADED)
     uploaded_at = models.DateTimeField(verbose_name="Дата и время загрузки", auto_now_add=True, blank=True, null=True)
     updated_at = models.DateTimeField(verbose_name="Дата и время обновления", default=None, blank=True, null=True)

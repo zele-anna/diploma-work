@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from docs_manager.models import Document
 from docs_manager.pagination import CustomPagination
 from docs_manager.serializers import DocumentSerializer
+from docs_manager.tasks import send_admin_notification
 
 
 class DocumentCreateAPIView(CreateAPIView):
@@ -19,3 +20,4 @@ class DocumentCreateAPIView(CreateAPIView):
         document = serializer.save()
         document.owner = self.request.user
         document.save()
+        send_admin_notification.delay(document.pk)

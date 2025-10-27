@@ -45,3 +45,6 @@ class DocumentTestCase(APITestCase):
         path = os.path.join(MEDIA_ROOT, "docs_manager", "uploads", self.file_name)
         if os.path.exists(path):
             os.remove(path)
+        if os.path.exists(self.file_name):
+
+            os.remove(self.file_name)
