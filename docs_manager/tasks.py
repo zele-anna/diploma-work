@@ -39,7 +39,7 @@ def send_admin_notification(doc_pk, host):
 def send_status_notification(doc_pk, status):
     """Задача по отправке уведомления об изменении статуса документа."""
     document = Document.objects.get(pk=doc_pk)
-    email_list = []
+    email_list = [document.owner.email]
 
     if email_list:
         subject = f"Документ {document.title} {status}!"
