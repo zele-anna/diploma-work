@@ -7,7 +7,7 @@ from users.models import User
 
 
 @shared_task
-def send_admin_notification(doc_pk):
+def send_admin_notification(doc_pk, host):
     """Задача по отправке уведомления о загрузке документа."""
     admins = User.objects.filter(is_superuser=False, is_staff=True, is_active=True)
     email_list = []
@@ -19,7 +19,8 @@ def send_admin_notification(doc_pk):
         file_content = document.file.read().decode("utf-8")  # Байтовое содержимое файла
         file_name = document.file.name.split("/")[-1]
         subject = "Загружен новый документ!"
-        message = "Загружен новый документ! Необходимо произвести подтверждение или отклонение."
+        url = f"http://{host}/admin/docs_manager/document/"
+        message = f"Загруженный документ во вложении. Для подтверждения или отклонения перейдите по ссылке: {url}"
         email = EmailMessage(
             subject=subject,
             body=message,
@@ -32,18 +33,15 @@ def send_admin_notification(doc_pk):
 
         # Отправляем письмо
         email.send()
-        # send_mail(subject, message, EMAIL_HOST_USER, email_list)
 
 
 @shared_task
 def send_status_notification(doc_pk, status):
     """Задача по отправке уведомления об изменении статуса документа."""
-    documents = Document.objects.filter(pk=doc_pk)
+    document = Document.objects.get(pk=doc_pk)
     email_list = []
-    for document in documents:
-        email_list.append(document.owner.email)
 
     if email_list:
-        subject = f"Документ {status}!"
-        message = f"Документ, который Вы загрузили, был {status} администратором!"
+        subject = f"Документ {document.title} {status}!"
+        message = f"Документ {document.title}, который Вы ранее загрузили, был {status} администратором!"
         send_mail(subject, message, EMAIL_HOST_USER, email_list)

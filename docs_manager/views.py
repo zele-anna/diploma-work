@@ -20,4 +20,5 @@ class DocumentCreateAPIView(CreateAPIView):
         document = serializer.save()
         document.owner = self.request.user
         document.save()
-        send_admin_notification.delay(document.pk)
+        host = self.request.get_host()
+        send_admin_notification.delay(document.pk, host)
